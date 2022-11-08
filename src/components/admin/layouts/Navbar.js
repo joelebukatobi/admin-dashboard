@@ -1,7 +1,8 @@
 // Next JS
 import Link from 'next/link';
 // Components
-import Input from '@/element//Input';
+import Input from '@/admin//element/Input';
+// Styles\
 
 export default function Navbar() {
   return (

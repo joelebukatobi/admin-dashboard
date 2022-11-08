@@ -1,0 +1,20 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+//
+@import 'base/reset.module';
+@import 'base/typography.module';
+//
+@import 'admin/components/button.module';
+@import 'admin/components/select.module';
+@import 'admin/components/input.module';
+@import 'admin/components/textarea.module';
+@import 'admin/components/card.module';
+@import 'admin/components/table.module';
+@import 'admin/components/tag.module';
+@import 'admin/components/editor.module';
+//
+@import 'admin/layouts/navbar.module';
+@import 'admin/layouts/sidebar.module';
+@import 'admin/layouts/layout.module';
+@import 'admin/layouts/body.module';

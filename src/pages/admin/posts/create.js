@@ -5,8 +5,8 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 // Components
 import Layout from '@/dashboard//Layout';
-import Input from '@/element//Input';
-import Select from '@/element//Select';
+import Input from 'components/admin/element/Input';
+import Select from 'components/admin/element/Select';
 const Editor = dynamic(() => import('@/dashboard//Editor'), { ssr: false });
 
 export default function Create() {
@@ -73,7 +73,7 @@ export default function Create() {
             classInput={'mt-[.8rem]'}
           />
 
-          <div className="form-group">
+          <div className="flex items-start gap-x-[3.2rem] mb-[2.4rem];">
             <Select
               placeHolder="Author"
               label="Author"

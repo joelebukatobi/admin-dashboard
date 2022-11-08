@@ -1,6 +1,6 @@
-import Card from '@/components//Card';
-import Table from '@/element//Table';
-import Layout from '@/dashboard//Layout';
+import Card from '@/admin//components//Card';
+import Table from '@/admin//element/Table';
+import Layout from '@/admin//layouts/Layout';
 
 export default function index() {
   return (

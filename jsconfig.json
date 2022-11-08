@@ -2,13 +2,10 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@/dashboard/*": ["components/dashboard*"],
-      "@/components/*": ["components/main*"],
-      "@/element/*": ["components/element*"],
-      "@/layout/*": ["components/layout*"],
+      "@/admin/*": ["components/admin*"],
+      "@/app/*": ["components/app*"],
       "@/assets/*": ["assets/*"],
       "@/config/*": ["config/*"],
-      "@/plugins/*": ["plugins/*"],
       "@/styles/*": ["styles/*"]
     }
   }

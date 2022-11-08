@@ -1,5 +1,5 @@
-import Navbar from '@/dashboard//Navbar';
-import Sidebar from '@/dashboard//Sidebar';
+import Navbar from '@/admin//layouts/Navbar';
+import Sidebar from '@/admin//layouts//Sidebar';
 
 export default function Layout({ children }) {
   return (

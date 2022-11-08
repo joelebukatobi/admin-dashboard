@@ -1,9 +1,9 @@
 // Next JS
 import Link from 'next/link';
 // Components
-import Layout from '@/dashboard//Layout';
-import Input from '@/element//Input';
-import Textarea from '@/element//Textarea';
+import Layout from '@/admin//layouts/Layout';
+import Input from '@/admin//element/Input';
+import Textarea from '@/admin//element/Textarea';
 
 export default function index() {
   return (

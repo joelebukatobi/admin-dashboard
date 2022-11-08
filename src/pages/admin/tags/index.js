@@ -1,7 +1,7 @@
 // Next JS
 import Link from 'next/link';
 // Components
-import Layout from '@/dashboard//Layout';
+import Layout from '@/admin//layouts/Layout';
 
 export default function index() {
   return (
