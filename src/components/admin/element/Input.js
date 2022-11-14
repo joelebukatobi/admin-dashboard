@@ -11,6 +11,7 @@ export default function Input({
   className,
   classLabel,
   classInput,
+  classButton,
 }) {
   return (
     <>
@@ -18,7 +19,7 @@ export default function Input({
         <label htmlFor="" className={classLabel}>
           {label}
         </label>
-        <div className=" flex items-center">
+        <div className="flex items-center relative">
           <input
             name={name}
             type={type}
@@ -27,11 +28,13 @@ export default function Input({
             value={value}
             onChange={onChange}
             required={required}
-            className={`border-[.1rem] border-black/10 ${classInput}`}
+            className={`border-[.16rem] border-black/10 ${classInput}`}
           />
-          <svg>
-            <use href={`/images/sprite.svg#${svg}`} />
-          </svg>
+          <button className={`invisible ${classButton}`}>
+            <svg>
+              <use href={`/images/sprite.svg#${svg}`} />
+            </svg>
+          </button>
         </div>
       </div>
     </>

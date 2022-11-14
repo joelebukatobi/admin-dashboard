@@ -1,10 +1,16 @@
+// React
+import { useEffect } from 'react';
 // Next JS
 import Link from 'next/link';
 // Components
 import Input from '@/admin//element/Input';
-// Styles\
+// Config
+import { API_URL } from '@/config//index';
+// Redux Toolkit/admin
+import { useSelector } from 'react-redux';
 
 export default function Navbar() {
+  const { data } = useSelector((state) => state.user);
   return (
     <nav className="nav">
       <Link href="/admin">
@@ -23,14 +29,20 @@ export default function Navbar() {
       </Link>
 
       <div className="nav_search">
-        <Input placeholder={'Search'} svg={'icon-search'} classLabel={'hidden'} classInput={'mt-0'} />
+        <Input
+          placeholder={'Search'}
+          classButton={'!visible'}
+          svg={'icon-search'}
+          classLabel={'hidden'}
+          classInput={'mt-0'}
+        />
       </div>
 
       <div className="nav_user">
-        <img src="https://placehold.jp/3d4070/ffffff/150x150.png" alt="User's Image" />
+        <img src={`${API_URL}/storage/${data.image}`} alt="User's Image" />
         <div className="flex flex-col">
           <h5>Administrator</h5>
-          <h6>User Name</h6>
+          <h6>{data.first_name + ' ' + data.last_name}</h6>
         </div>
       </div>
     </nav>

@@ -4,10 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 // Components
-import Layout from '@/dashboard//Layout';
-import Input from 'components/admin/element/Input';
-import Select from 'components/admin/element/Select';
-const Editor = dynamic(() => import('@/dashboard//Editor'), { ssr: false });
+import Layout from '@/admin//layouts/Layout';
+import Input from '@/admin//element/Input';
+import Select from '@/admin//element/Select';
+const Editor = dynamic(() => import('@/admin//components/Editor'), { ssr: false });
 
 export default function Create() {
   const [post, setPost] = useState('');
@@ -38,7 +38,7 @@ export default function Create() {
   //
   return (
     <Layout>
-      <div className="body">
+      <div>
         <header className="flex flex-col ">
           <div className="flex items-center mb-[1.6rem]">
             <h3 className="text-black/90 mr-[1.6rem]">Article One</h3>

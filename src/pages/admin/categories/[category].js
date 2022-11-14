@@ -8,7 +8,7 @@ import Textarea from '@/admin//element/Textarea';
 export default function index() {
   return (
     <Layout>
-      <div className="body">
+      <div>
         <header className="flex flex-col ">
           <div className="flex items-center mb-[1.6rem]">
             <h3 className="text-black/90 mr-[1.6rem]">Category One</h3>

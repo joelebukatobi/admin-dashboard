@@ -1,9 +1,24 @@
+// React
+import { useEffect } from 'react';
 // Next JS
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+// Redux Toolkit
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout } from '@/features///user/userActions';
 
 export default function Sidebar() {
   const pathname = useRouter().pathname;
+  const navigate = useRouter().push;
+  const dispatch = useDispatch();
+  // Logout Dispatch
+  const logout = () => {
+    dispatch(userLogout())
+      .unwrap()
+      .then(() => navigate('/admin/login'));
+  };
+  const { data } = useSelector((state) => state.user);
+
   return (
     <div className="sidebar">
       <div className="">
@@ -223,7 +238,7 @@ export default function Sidebar() {
                   />
                 </svg>
               </div>
-              <Link href="/admin/">Users</Link>
+              <Link href={`/admin/user/${data.username}`}>Profile</Link>
             </div>
             <svg
               width="16"
@@ -279,7 +294,16 @@ export default function Sidebar() {
                   />
                 </svg>
               </div>
-              <Link href="/admin/">Logout</Link>
+              <p
+                onClick={(e) => (
+                  e.preventDefault(),
+                  setTimeout(() => {
+                    logout();
+                  }, 2500)
+                )}
+              >
+                Logout
+              </p>
             </div>
           </li>
         </ul>

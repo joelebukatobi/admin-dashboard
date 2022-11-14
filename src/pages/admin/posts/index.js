@@ -6,7 +6,7 @@ import Layout from '@/admin//layouts/Layout';
 export default function index() {
   return (
     <Layout>
-      <div className="body">
+      <div>
         <header className="flex items-center">
           <h3 className="text-black/90 mr-[1.6rem]">Posts</h3>
           <div className="tag">

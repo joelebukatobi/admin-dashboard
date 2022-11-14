@@ -27,7 +27,7 @@ h6 {
 }
 
 input {
-  @apply text-[1.6rem] font-semibold placeholder:font-normal;
+  @apply text-[1.6rem] font-medium placeholder:font-normal;
 }
 
 textarea {
@@ -36,6 +36,10 @@ textarea {
 
 label {
   @apply text-[1.4rem] font-normal;
+}
+
+button {
+  @apply text-[1.6rem] font-bold;
 }
 
 th {

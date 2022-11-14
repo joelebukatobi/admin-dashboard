@@ -9,12 +9,16 @@
 @import 'admin/components/select.module';
 @import 'admin/components/input.module';
 @import 'admin/components/textarea.module';
+@import 'admin/components/button.module';
 @import 'admin/components/card.module';
 @import 'admin/components/table.module';
 @import 'admin/components/tag.module';
 @import 'admin/components/editor.module';
+@import 'admin/components/loading.module';
 //
 @import 'admin/layouts/navbar.module';
 @import 'admin/layouts/sidebar.module';
 @import 'admin/layouts/layout.module';
 @import 'admin/layouts/body.module';
+//
+@import 'admin/pages/register.module';
