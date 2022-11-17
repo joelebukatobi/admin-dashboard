@@ -31,7 +31,7 @@ input {
 }
 
 textarea {
-  @apply text-[1.6rem] font-semibold placeholder:font-normal;
+  @apply text-[1.6rem] font-medium placeholder:font-normal;
 }
 
 label {
@@ -52,4 +52,9 @@ td {
 
 li {
   @apply text-[1.6rem];
+  & a {
+    &:active {
+      // @apply font-bold;
+    }
+  }
 }

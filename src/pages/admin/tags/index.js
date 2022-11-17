@@ -2,8 +2,14 @@
 import Link from 'next/link';
 // Components
 import Layout from '@/admin//layouts/Layout';
+// Config & Helpers
+import { API_URL } from '@/config/index';
+import { parseCookies } from '@/helpers//index';
+// External Libraries
+import moment from 'moment/moment';
 
-export default function index() {
+export default function index({ tags }) {
+  let id = 1;
   return (
     <Layout>
       <div>
@@ -11,7 +17,7 @@ export default function index() {
           <h3 className="text-black/90 mr-[1.6rem]">Tags</h3>
           <div className="tag">
             <p>
-              <Link href="/admin/posts/create/">Create New</Link>
+              <Link href="/admin/tags/create/">Create New</Link>
             </p>
           </div>
         </header>
@@ -19,33 +25,51 @@ export default function index() {
           <table>
             <thead>
               <tr>
-                <th>S/N</th>
-                <th>Title</th>
-                <th>Category</th>
+                <th>ID</th>
+                <th>Tag</th>
                 <th>Published Date</th>
-                <th>Author</th>
-                <th className="@apply rounded-tr-[.8rem] w-[5%] pl-[0]">Edit</th>
+                <th className="@apply rounded-tr-[.8rem] w-[10%] pl-[0]">Edit</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Malcolm Lockyer</td>
-                <td>Web Dev</td>
-                <td>1/1/2022</td>
-                <td>Malcolm Lockyer</td>
-                <td>
-                  <Link href="/admin/tags/tag-one">
-                    <svg>
-                      <use href={`/images/sprite.svg#icon-post`} />
-                    </svg>
-                  </Link>
-                </td>
-              </tr>
+              {tags.map((tag) => {
+                return (
+                  <tr key={tag.id}>
+                    <td>{id++}</td>
+                    <td className="capitalize">{tag.name}</td>
+                    <td>{moment(tag.created_at).format('L')}</td>
+                    <td>
+                      <Link href={`/admin/tags/${tag.slug}`}>
+                        <svg>
+                          <use href={`/images/sprite.svg#icon-post`} />
+                        </svg>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  const res = await fetch(`${API_URL}/api/tags`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  return {
+    props: {
+      tags: data.tags,
+    },
+  };
 }

@@ -49,9 +49,9 @@ const userSlice = createSlice({
     // logout
     [userLogout.fulfilled]: (state) => {
       state.loading = false;
-      state.error = null;
       state.data = null;
-      state.success = true;
+      state.error = null;
+      state.success = false;
     },
 
     // get user details
@@ -71,7 +71,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.data = null;
       state.error = payload;
-      state.success = true;
+      state.success = false;
     },
   },
 });

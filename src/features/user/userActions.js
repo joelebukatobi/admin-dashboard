@@ -57,7 +57,9 @@ export const getUser = createAsyncThunk('user', async () => {
     });
 
     const data = await res.json();
-    return data.user;
+    if (res.ok) {
+      return data.user;
+    } else return null;
   } catch (error) {
     if (error.response && error.response.data.message) {
       return rejectWithValue(error.response.data.message);

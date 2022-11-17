@@ -13,15 +13,16 @@ import { parseCookies } from '@/helpers//index';
 // External Libraries
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function index({ tag, token }) {
+export default function index({ token }) {
+  // Assigns Next JS useRouter to a variable
   const navigate = useRouter();
-  const [name, setName] = useState(tag.name);
-
+  // Store values gotten from form
+  const [name, setName] = useState('');
   // handleSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${API_URL}/api/tags/${tag.slug}`, {
-      method: 'PUT',
+    const res = await fetch(`${API_URL}/api/tags`, {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
@@ -37,10 +38,10 @@ export default function index({ tag, token }) {
     if (res.ok) {
       toast.success('Saved: Tag edited successfully');
       setTimeout(() => {
-        navigate.push('/admin/categories');
+        navigate.push('/admin/tags');
       }, 5000);
     } else {
-      toast.error(`Error ${data.message}`);
+      toast.error(`Error: ${data.message}`);
     }
   };
   return (
@@ -49,9 +50,9 @@ export default function index({ tag, token }) {
         <ToastContainer autoClose={4000} position="bottom-right" theme="colored" />
         <header className="flex flex-col ">
           <div className="flex items-center mb-[1.6rem]">
-            <h3 className="text-black/90 mr-[1.6rem] capitalize">{tag.name}</h3>
+            <h3 className="text-black/90 mr-[1.6rem] capitalize">New Tag</h3>
             <figcaption role="button" className="tag" onClick={handleSubmit}>
-              <p>Publish</p>
+              <p>Save</p>
             </figcaption>
           </div>
 
@@ -62,10 +63,6 @@ export default function index({ tag, token }) {
             <h5>&gt; &nbsp;</h5>
             <Link href="/admin/tags">
               <h5 className="text-black/70 hover:text-black">Tags &nbsp;</h5>
-            </Link>
-            <h5>&gt; &nbsp;</h5>
-            <Link href={`/admin/tags/${tag.slug}`}>
-              <h5 className=" text-black/70 hover:text-black capitalize">{tag.name} &nbsp;</h5>
             </Link>
           </div>
         </header>
@@ -95,21 +92,11 @@ export default function index({ tag, token }) {
   );
 }
 
-export async function getServerSideProps({ req, query: { tag } }) {
+export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
-  const res = await fetch(`${API_URL}/api/tags/${tag}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await res.json();
-  console.log(data);
   return {
     props: {
       token,
-      tag: data.tag,
     },
   };
 }

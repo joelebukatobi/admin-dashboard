@@ -15,7 +15,7 @@ export default function Sidebar() {
   const logout = () => {
     dispatch(userLogout())
       .unwrap()
-      .then(() => navigate('/admin/login'));
+      .then(() => navigate('/admin'));
   };
   const { data } = useSelector((state) => state.user);
 
@@ -25,7 +25,7 @@ export default function Sidebar() {
         <ul>
           <li
             className={`
-            ${pathname === '/admin' ? ' text-black' : 'text-black/70'}`}
+            ${pathname === '/admin' ? ' text-black font-bold' : 'text-black/70'}`}
           >
             <div className="flex items-center">
               <div className="h-[2rem]">
@@ -66,7 +66,7 @@ export default function Sidebar() {
           </li>
           <li
             className={`
-            ${pathname === '/admin/posts' || pathname.includes('posts') ? 'text-black' : 'text-black/70'}`}
+            ${pathname === '/admin/posts' || pathname.includes('posts') ? 'text-black font-bold' : 'text-black/70'}`}
           >
             <div className="flex items-center">
               <div className="h-[2rem]">
@@ -112,10 +112,14 @@ export default function Sidebar() {
                 strokeLinejoin="round"
               />
             </svg>
-          </li>{' '}
+          </li>
           <li
             className={`
-            ${pathname === '/admin/categories' || pathname.includes('categories') ? ' text-black' : 'text-black/70'}`}
+            ${
+              pathname === '/admin/categories' || pathname.includes('categories')
+                ? ' text-black font-bold'
+                : 'text-black/70'
+            }`}
           >
             <div className="flex items-center">
               <div className="h-[2rem]">
@@ -168,7 +172,7 @@ export default function Sidebar() {
           </li>
           <li
             className={`
-            ${pathname === '/admin/tags' || pathname.includes('tags') ? ' text-black' : 'text-black/70'}`}
+            ${pathname === '/admin/tags' || pathname.includes('tags') ? ' text-black font-bold' : 'text-black/70'}`}
           >
             <div className="flex items-center">
               <div className="h-[2rem]">
@@ -210,7 +214,7 @@ export default function Sidebar() {
           </li>
           <li
             className={`
-            ${pathname === '/user' || pathname.includes('user') ? ' text-black' : 'text-black/70'}`}
+            ${pathname === '/user' || pathname.includes('user') ? ' text-black font-bold' : 'text-black/70'}`}
           >
             <div className="flex items-center">
               <div className="h-[2rem]">
@@ -299,7 +303,7 @@ export default function Sidebar() {
                   e.preventDefault(),
                   setTimeout(() => {
                     logout();
-                  }, 2500)
+                  }, 1500)
                 )}
               >
                 Logout

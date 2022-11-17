@@ -1,9 +1,29 @@
+// React
+import { useState } from 'react';
 // Next JS
 import Link from 'next/link';
 // Components
 import Layout from '@/admin//layouts/Layout';
+import Modal from '@/admin//components/Modal';
+// Config & Helpers
+import { API_URL } from '@/config/index';
+import { parseCookies } from '@/helpers//index';
+// External Libraries
+import moment from 'moment/moment';
+import { ToastContainer, toast } from 'react-toastify';
 
-export default function index() {
+export default function index({ categories, token }) {
+  //
+  const [slug, setSlug] = useState('');
+  const [open, setOpen] = useState(false);
+
+  // Toggle Modal
+  const toggle = () => {
+    setOpen(true);
+  };
+
+  // Set ID
+  let id = 1;
   return (
     <Layout>
       <div>
@@ -11,7 +31,7 @@ export default function index() {
           <h3 className="text-black/90 mr-[1.6rem]">Categories</h3>
           <div className="tag">
             <p>
-              <Link href="/admin/posts/create/">Create New</Link>
+              <Link href="/admin/categories/create/">Create New</Link>
             </p>
           </div>
         </header>
@@ -19,33 +39,63 @@ export default function index() {
           <table>
             <thead>
               <tr>
-                <th>S/N</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Published Date</th>
-                <th>Author</th>
-                <th className="@apply rounded-tr-[.8rem] w-[5%] pl-[0]">Edit</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th className="w-[35%]">Description</th>
+                <th>Date</th>
+                <th className="rounded-tr-[.8rem] pl-[0]">Edit</th>
               </tr>
             </thead>
+
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Malcolm Lockyer</td>
-                <td>Web Dev</td>
-                <td>1/1/2022</td>
-                <td>Malcolm Lockyer</td>
-                <td>
-                  <Link href="/admin/categories/article-one">
-                    <svg>
-                      <use href={`/images/sprite.svg#icon-post`} />
-                    </svg>
-                  </Link>
-                </td>
-              </tr>
+              {categories.map((category) => {
+                return (
+                  <tr key={category.id}>
+                    <td>{id++}</td>
+                    <td className="capitalize">{category.name}</td>
+                    <td className="first-letter:capitalize">{category.description.substring(0, 50)}...</td>
+                    <td>{moment(category.created_at).format('L')}</td>
+                    <td>
+                      <div className="flex items-center gap-x-[.8rem]">
+                        <Link href={`/admin/categories/${category.slug}/`}>
+                          <svg className="hover:stroke-green-600">
+                            <use href={`/images/sprite.svg#icon-post`} />
+                          </svg>
+                        </Link>
+                        <div onClick={(e) => (e.preventDefault(), setSlug(category.slug), setOpen(toggle))}>
+                          <svg className="hover:stroke-red-600">
+                            <use href={`/images/sprite.svg#icon-trash`} />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
+      <Modal open={open} close={setOpen} modal={'category'} slug={slug} token={token} />
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  const res = await fetch(`${API_URL}/api/categories`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(res);
+  const data = await res.json();
+  return {
+    props: {
+      token,
+      categories: data.categories,
+    },
+  };
 }

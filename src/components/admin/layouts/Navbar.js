@@ -22,7 +22,7 @@ export default function Navbar() {
             />
           </svg>
           <div className="flex flex-col">
-            <h5>Admin</h5>
+            <h5 className="font-bold">Admin</h5>
             <h6>Dashboard</h6>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="nav_user">
         <img src={`${API_URL}/storage/${data.image}`} alt="User's Image" />
         <div className="flex flex-col">
-          <h5>Administrator</h5>
+          <h5 className="font-semibold">Administrator</h5>
           <h6>{data.first_name + ' ' + data.last_name}</h6>
         </div>
       </div>

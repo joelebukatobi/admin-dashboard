@@ -3,13 +3,14 @@
     "baseUrl": "src",
     "paths": {
       "@/admin/*": ["components/admin*"],
+      "@/global/*": ["components/global*"],
       "@/app/*": ["components/app*"],
-      "@/assets/*": ["assets/*"],
       "@/config/*": ["config/*"],
       "@/helpers/*": ["helpers/*"],
       "@/features/*": ["features/*"],
       "@/store/*": ["store/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["assets/styles/*"],
+      "@/images/*": ["assets/images*"]
     }
   }
 }
