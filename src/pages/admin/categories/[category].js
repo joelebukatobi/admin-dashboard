@@ -14,7 +14,9 @@ import { parseCookies } from '@/helpers//index';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function index({ category, token }) {
+  // Assigns Next JS useRouter to a variable
   const navigate = useRouter();
+  // Store values gotten from form
   const [name, setName] = useState(category.name);
   const [description, setDescription] = useState(category.description);
 
@@ -48,7 +50,7 @@ export default function index({ category, token }) {
   };
   return (
     <Layout>
-      <div>
+      <div className="">
         <ToastContainer autoClose={4000} position="bottom-right" theme="colored" />
         <header className="flex flex-col ">
           <div className="flex items-center mb-[1.6rem]">

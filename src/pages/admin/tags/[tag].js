@@ -14,6 +14,7 @@ import { parseCookies } from '@/helpers//index';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function index({ tag, token }) {
+  // Store values gotten from form
   const navigate = useRouter();
   const [name, setName] = useState(tag.name);
 

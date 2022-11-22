@@ -1,14 +1,26 @@
+// React
+import { useState } from 'react';
 // Next JS
 import Link from 'next/link';
 // Components
 import Layout from '@/admin//layouts/Layout';
+import Modal from '@/admin//components/Modal';
 // Config & Helpers
 import { API_URL } from '@/config/index';
 import { parseCookies } from '@/helpers//index';
 // External Libraries
 import moment from 'moment/moment';
 
-export default function index({ tags }) {
+export default function index({ tags, token }) {
+  // Store values gotten from form
+  const [slug, setSlug] = useState('');
+  const [open, setOpen] = useState(false);
+  // Toggle Modal
+  const toggle = () => {
+    setOpen(true);
+  };
+
+  // Set table ID
   let id = 1;
   return (
     <Layout>
@@ -39,11 +51,18 @@ export default function index({ tags }) {
                     <td className="capitalize">{tag.name}</td>
                     <td>{moment(tag.created_at).format('L')}</td>
                     <td>
-                      <Link href={`/admin/tags/${tag.slug}`}>
-                        <svg>
-                          <use href={`/images/sprite.svg#icon-post`} />
-                        </svg>
-                      </Link>
+                      <div className="flex items-center gap-x-[.8rem]">
+                        <Link href={`/admin/tags/${tag.slug}/`}>
+                          <svg className="hover:stroke-green-600">
+                            <use href={`/images/sprite.svg#icon-post`} />
+                          </svg>
+                        </Link>
+                        <div onClick={(e) => (e.preventDefault(), setSlug(tag.slug), setOpen(toggle))}>
+                          <svg className="hover:stroke-red-600">
+                            <use href={`/images/sprite.svg#icon-trash`} />
+                          </svg>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -52,12 +71,14 @@ export default function index({ tags }) {
           </table>
         </div>
       </div>
+      <Modal open={open} close={setOpen} modal={'tags'} slug={slug} token={token} text={'tag'} />
     </Layout>
   );
 }
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
+  console.log(token);
   const res = await fetch(`${API_URL}/api/tags`, {
     method: 'GET',
     headers: {
@@ -69,6 +90,7 @@ export async function getServerSideProps({ req }) {
   const data = await res.json();
   return {
     props: {
+      token,
       tags: data.tags,
     },
   };

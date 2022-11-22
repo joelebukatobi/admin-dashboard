@@ -56,7 +56,7 @@ const Select = ({ placeHolder, options, isMulti, isSearchable, onChange, label }
       return (
         <div className="flex gap-x-[1.6rem]">
           {selectedValue.map((option) => (
-            <div key={option.value} className="flex items-center h-full gap-x-[.8rem]">
+            <div key={option.value} className="capitalize flex items-center h-full gap-x-[.8rem]">
               {option.label}
               <span onClick={(e) => onTagRemove(e, option)} className="capitalize">
                 <CloseIcon />
@@ -125,7 +125,7 @@ const Select = ({ placeHolder, options, isMulti, isSearchable, onChange, label }
       <div className={`w-full border-[.16rem] border-black/10 outline-none rounded-[.4rem] mt-[.8rem]`}>
         <div
           onClick={handleInputClick}
-          className="flex justify-between items-center h-[4.8rem] px-[1.6rem] text-[1.6rem] cursor-pointer text-black/70"
+          className="flex justify-between items-center h-[4.8rem] px-[1.6rem] text-[1.6rem] cursor-pointer text-black/70 capitalize"
         >
           <div>{getDisplay()}</div>
           <div>

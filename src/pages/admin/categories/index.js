@@ -10,10 +10,9 @@ import { API_URL } from '@/config/index';
 import { parseCookies } from '@/helpers//index';
 // External Libraries
 import moment from 'moment/moment';
-import { ToastContainer, toast } from 'react-toastify';
 
 export default function index({ categories, token }) {
-  //
+  // State
   const [slug, setSlug] = useState('');
   const [open, setOpen] = useState(false);
 
@@ -26,7 +25,7 @@ export default function index({ categories, token }) {
   let id = 1;
   return (
     <Layout>
-      <div>
+      <div className="">
         <header className="flex items-center">
           <h3 className="text-black/90 mr-[1.6rem]">Categories</h3>
           <div className="tag">
@@ -46,7 +45,6 @@ export default function index({ categories, token }) {
                 <th className="rounded-tr-[.8rem] pl-[0]">Edit</th>
               </tr>
             </thead>
-
             <tbody>
               {categories.map((category) => {
                 return (
@@ -76,7 +74,7 @@ export default function index({ categories, token }) {
           </table>
         </div>
       </div>
-      <Modal open={open} close={setOpen} modal={'category'} slug={slug} token={token} />
+      <Modal open={open} close={setOpen} modal={'categories'} slug={slug} token={token} text={'category'} />
     </Layout>
   );
 }
@@ -90,7 +88,6 @@ export async function getServerSideProps({ req }) {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(res);
   const data = await res.json();
   return {
     props: {

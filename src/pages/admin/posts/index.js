@@ -1,9 +1,28 @@
+// React
+import { useState } from 'react';
 // Next JS
 import Link from 'next/link';
 // Components
 import Layout from '@/admin//layouts/Layout';
+import Modal from '@/admin//components/Modal';
+// Config & Helpers
+import { API_URL } from '@/config/index';
+import { parseCookies } from '@/helpers//index';
+// External Libraries
+import moment from 'moment/moment';
 
-export default function index() {
+export default function index({ posts, token }) {
+  // State
+  const [slug, setSlug] = useState('');
+  const [open, setOpen] = useState(false);
+
+  // Toggle Modal
+  const toggle = () => {
+    setOpen(true);
+  };
+
+  // Set ID
+  let id = 1;
   return (
     <Layout>
       <div>
@@ -24,28 +43,58 @@ export default function index() {
                 <th>Category</th>
                 <th>Published Date</th>
                 <th>Author</th>
-                <th className="@apply rounded-tr-[.8rem] w-[5%] pl-[0]">Edit</th>
+                <th className="@apply rounded-tr-[.8rem] w-[10%] pl-[0]">Edit</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Malcolm Lockyer</td>
-                <td>Web Dev</td>
-                <td>1/1/2022</td>
-                <td>Malcolm Lockyer</td>
-                <td>
-                  <Link href="/admin/posts/article-one">
-                    <svg>
-                      <use href={`/images/sprite.svg#icon-post`} />
-                    </svg>
-                  </Link>
-                </td>
-              </tr>
+              {posts.map((post) => {
+                return (
+                  <tr key={post.id}>
+                    <td>{id++}</td>
+                    <td className="capitalize">{post.title}</td>
+                    <td className="first-letter:capitalize">{post.category.name}</td>
+                    <td>{moment(post.created_at).format('L')}</td>
+                    <td>{post.user.first_name + ' ' + post.user.last_name}</td>
+                    <td>
+                      <div className="flex items-center gap-x-[.8rem]">
+                        <Link href={`/admin/posts/${post.slug}/`}>
+                          <svg className="hover:stroke-green-600">
+                            <use href={`/images/sprite.svg#icon-post`} />
+                          </svg>
+                        </Link>
+                        <div onClick={(e) => (e.preventDefault(), setSlug(post.slug), setOpen(toggle))}>
+                          <svg className="hover:stroke-red-600">
+                            <use href={`/images/sprite.svg#icon-trash`} />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
+      <Modal open={open} close={setOpen} modal="posts" text={'post'} slug={slug} token={token} />
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  const res = await fetch(`${API_URL}/api/posts`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  return {
+    props: {
+      token,
+      posts: data.posts,
+    },
+  };
 }

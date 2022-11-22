@@ -8,6 +8,7 @@ export default function Input({
   name,
   svg,
   label,
+  after,
   className,
   classLabel,
   classInput,
@@ -24,6 +25,7 @@ export default function Input({
             name={name}
             type={type}
             id={id}
+            after={after}
             placeholder={placeholder}
             value={value}
             onChange={onChange}

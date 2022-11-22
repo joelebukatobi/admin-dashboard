@@ -10,6 +10,7 @@ import Select from '@/admin//element/Select';
 const Editor = dynamic(() => import('@/admin//components/Editor'), { ssr: false });
 
 export default function Create() {
+  // Store values gotten from form
   const [post, setPost] = useState('');
   const [author, setAuthor] = useState('');
   const [tags, setTags] = useState('');

@@ -19,6 +19,8 @@ const modules = {
   ],
 };
 
-export default function Editor({ onChange }) {
-  return <ReactQuill modules={modules} theme="snow" placeholder="Content goes here..." onChange={onChange} />;
+export default function Editor({ onChange, value }) {
+  return (
+    <ReactQuill modules={modules} theme="snow" placeholder="Content goes here..." value={value} onChange={onChange} />
+  );
 }

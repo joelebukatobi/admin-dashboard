@@ -17,7 +17,9 @@ table {
   & tbody {
     & tr {
       & > * {
-        @apply pr-[1.6rem] py-[.8rem];
+        &:not(:last-child) {
+          @apply pr-[1.6rem] py-[.8rem] pl-[1.6rem];
+        }
       }
     }
   }

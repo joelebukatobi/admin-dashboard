@@ -48,7 +48,7 @@ export default function index({ token }) {
   };
   return (
     <Layout>
-      <div>
+      <div className="w-1/2">
         <ToastContainer autoClose={4000} position="bottom-right" theme="colored" />
         <header className="flex flex-col ">
           <div className="flex items-center mb-[1.6rem]">
@@ -68,7 +68,7 @@ export default function index({ token }) {
             </Link>
           </div>
         </header>
-        <form action="" className="mt-[4rem] w-1/2">
+        <form action="" className="mt-[4rem]">
           <Input
             label={'Name'}
             placeholder={'Name'}
