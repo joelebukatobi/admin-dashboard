@@ -65,7 +65,9 @@ export default function Post({ post, tags, categories, users, token }) {
     body.append('new_image', image);
     body.append('cat_id', category);
     body.append('user_id', author);
-    body.append('tags', tags);
+    for (var i = 0; i < tags.length; i++) {
+      body.append('tags[]', tags[i]);
+    }
 
     // Post Requests
     const res = await fetch(`${API_URL}/api/posts/${post.slug}`, {
@@ -82,7 +84,7 @@ export default function Post({ post, tags, categories, users, token }) {
     if (res.ok) {
       toast.success('Saved: Post edited successfully');
       setTimeout(() => {
-        setContent();
+        setContent(null);
         navigate.push('/admin/posts');
       }, 5000);
     } else {
@@ -107,11 +109,11 @@ export default function Post({ post, tags, categories, users, token }) {
               <h5 className="text-black/70 hover:text-black">Dashboard &nbsp;</h5>
             </Link>
             <h5>&gt; &nbsp;</h5>
-            <Link href="/admin/post">
+            <Link href="/admin/posts">
               <h5 className="text-black/70 hover:text-black">Posts &nbsp;</h5>
             </Link>
             <h5>&gt; &nbsp;</h5>
-            <Link href={`/admin/post/${post.title}`}>
+            <Link href={`/admin/posts/${post.title}`}>
               <h5 className="capitalize text-black/70 hover:text-black">{post.title}</h5>
             </Link>
           </div>

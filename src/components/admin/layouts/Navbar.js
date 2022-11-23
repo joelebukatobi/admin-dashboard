@@ -28,7 +28,7 @@ export default function Navbar() {
         </div>
       </Link>
 
-      <div className="nav_search">
+      {/* <div className="nav_search">
         <Input
           placeholder={'Search'}
           classButton={'!visible'}
@@ -36,7 +36,7 @@ export default function Navbar() {
           classLabel={'hidden'}
           classInput={'mt-0'}
         />
-      </div>
+      </div> */}
 
       <div className="nav_user">
         <img src={`${API_URL}/storage/${data.image}`} alt="User's Image" />

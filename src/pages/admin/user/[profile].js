@@ -7,28 +7,77 @@ import { useRouter } from 'next/router';
 import Input from '@/admin//element/Input';
 import Layout from '@/admin//layouts/Layout';
 import Loading from '@/admin//components/Loading';
-// Redux Toolkit
+// Config & Helpers
+import { API_URL } from '@/config/index';
+import { parseCookies } from '@/helpers//index';
+// External Libraries
+import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
-export default function Profile() {
+export default function Profile({ token, username }) {
+  // Assigns Next JS useRouter to a variable
+  const navigate = useRouter();
   const { data, loading } = useSelector((state) => state.user);
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [username, setUserName] = useState('');
-  const [new_image, setNewImage] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [image, setImage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password_confirmation, setPasswordConfirmation] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [content, setContent] = useState();
+  // const user = data;
+  console.log(data);
+  // handleChange
+  const imageChange = (file) => {
+    setImage(file[0]);
+    setContent(file[0].name);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // FormData
+    const body = new FormData();
+    body.append('first_name', firstName);
+    body.append('last_name', lastName);
+    body.append('username', userName);
+    body.append('new_image', image);
+    body.append('email', email);
+    body.append('password', password);
+    body.append('password_confirmation', passwordConfirmation);
+    // Post Requests
+    const res = await fetch(`${API_URL}/api/users/${username}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      body: body,
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success('Saved: Post edited successfully');
+      setTimeout(() => {
+        setContent();
+        navigate.push(`/admin/user/${data.user.username}`);
+      }, 5000);
+    } else {
+      toast.error(`Error ${data.message}`);
+    }
+  };
 
   return (
     <Layout>
       {loading && <Loading />}
       {data && (
-        <div>
+        <div className="w-1/2">
+          <ToastContainer autoClose={4000} position="bottom-right" theme="colored" />
           <header className="flex flex-col ">
             <div className="flex items-center mb-[1.6rem]">
               <h3 className="text-black/90 mr-[1.6rem]">Welcome {data.first_name}</h3>
-              <figcaption className="tag">
+              <figcaption onClick={handleSubmit} className="tag">
                 <p>Save</p>
               </figcaption>
             </div>
@@ -43,23 +92,25 @@ export default function Profile() {
               </Link>
             </div>
           </header>
-          <form action="" className="mt-[4rem] w-1/2">
+          <form action="" className="mt-[4rem]" onSubmit={handleSubmit}>
             <div className="flex items-start gap-x-[3.2rem] mb-[2.4rem];">
               <Input
+                name={'first_name'}
                 label={'First Name'}
-                placeholder={'First Name'}
+                placeholder={`${data.first_name}`}
                 type={'text'}
-                value={data.first_name}
+                value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
                 className={'mb-[2.4rem]'}
                 classInput={'mt-[.8rem]'}
               />
               <Input
+                name={'last_name'}
                 label={'Last Name'}
-                placeholder={'Last Name'}
+                placeholder={`${data.last_name}`}
                 type={'text'}
-                value={data.last_name}
+                value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
                 className={'mb-[2.4rem]'}
@@ -68,33 +119,36 @@ export default function Profile() {
             </div>
             <div className="flex items-start gap-x-[3.2rem] mb-[2.4rem];">
               <Input
+                name={'username'}
                 label={'Username'}
-                placeholder={'Username'}
+                placeholder={`${data.username}`}
                 type={'text'}
-                value={data.username}
+                value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 required
                 className={'mb-[2.4rem]'}
                 classInput={'mt-[.8rem]'}
               />{' '}
               <Input
+                name={'new_image'}
                 label={'Profile Picture'}
                 placeholder={'Profile Picture'}
                 type={'file'}
-                value={new_image}
-                onChange={(e) => setNewImage(e.target.value)}
+                onChange={(e) => imageChange(e.target.files)}
                 required
+                after={content || 'Upload an image'}
                 className={'mb-[2.4rem] '}
                 classInput={
-                  'mt-[.8rem] relative after:content-["Upload_an_image"] after:bg-white after:h-full after:w-full after:absolute after:top-0  after:left-[1.6rem] after:z-5 after:flex after:items-center after:font-light after:text-[#b9bec7]'
+                  'mt-[.8rem] relative after:content-[attr(after)] after:bg-white after:h-full after:w-full after:absolute after:top-0  after:left-[1.6rem] after:z-5 after:flex after:items-center after:font-light after:text-[#b9bec7]'
                 }
               />
             </div>
             <Input
+              name={'email'}
               label={'Email'}
-              placeholder={'Email'}
+              placeholder={`${data.email}`}
               type={'email'}
-              value={data.email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               className={'mb-[2.4rem]'}
@@ -103,6 +157,7 @@ export default function Profile() {
 
             <div className="flex items-start gap-x-[3.2rem] mb-[2.4rem];">
               <Input
+                name={'password'}
                 label={'Password'}
                 placeholder={'Password'}
                 type={'password'}
@@ -113,10 +168,11 @@ export default function Profile() {
                 classInput={'mt-[.8rem]'}
               />
               <Input
+                name={'password_confirmation'}
                 label={'Confirm Password'}
                 placeholder={'Password'}
-                type={'text'}
-                value={password_confirmation}
+                type={'password'}
+                value={passwordConfirmation}
                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                 required
                 className={'mb-[2.4rem]'}
@@ -128,4 +184,23 @@ export default function Profile() {
       )}
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req, query: { post } }) {
+  const { token } = parseCookies(req);
+  const res = await fetch(`${API_URL}/api/users/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  console.log(data);
+  return {
+    props: {
+      token,
+      username: data.user.username,
+    },
+  };
 }
