@@ -14,7 +14,6 @@ import { API_URL } from '@/config/index';
 import { parseCookies } from '@/helpers//index';
 // External Libraries
 import { ToastContainer, toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
 
 export default function Post({ post, tags, categories, users, token }) {
   // Assigns Next JS useRouter to a variable
@@ -22,9 +21,9 @@ export default function Post({ post, tags, categories, users, token }) {
   // Store values gotten from form
   const [title, setTitle] = useState(post.title);
   const [tag, setTag] = useState(post.tags);
-  const [category, setCategory] = useState();
-  const [author, setAuthor] = useState();
-  const [image, setImage] = useState();
+  const [category, setCategory] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const [image, setImage] = useState(null);
   const [content, setContent] = useState(post.image);
   const [article, setArticle] = useState(post.post);
 
@@ -45,7 +44,7 @@ export default function Post({ post, tags, categories, users, token }) {
   });
 
   // handleChange
-  const handleChange = (file) => {
+  const imageChange = (file) => {
     setImage(file[0]);
     setContent(file[0].name);
   };
@@ -64,8 +63,8 @@ export default function Post({ post, tags, categories, users, token }) {
     body.append('title', title);
     body.append('post', article);
     body.append('new_image', image);
-    body.append('cat_id', category.value);
-    body.append('user_id', author.value);
+    body.append('cat_id', category);
+    body.append('user_id', author);
     body.append('tags', tags);
 
     // Post Requests
@@ -129,7 +128,7 @@ export default function Post({ post, tags, categories, users, token }) {
               value={title}
               name={'title'}
               onChange={(e) => setTitle(e.target.value)}
-              required
+              required={'required'}
               className={'mb-[2.4rem]'}
               classInput={'mt-[.8rem] capitalize'}
             />
@@ -138,8 +137,8 @@ export default function Post({ post, tags, categories, users, token }) {
               placeholder={'Thumbnail'}
               name={'new_image'}
               type={'file'}
-              onChange={(e) => handleChange(e.target.files)}
-              required
+              onChange={(e) => imageChange(e.target.files)}
+              required={'required'}
               after={content}
               className={'mb-[2.4rem] '}
               classInput={
@@ -152,15 +151,15 @@ export default function Post({ post, tags, categories, users, token }) {
               placeHolder="Author"
               label="Author"
               options={authorOptions}
-              onChange={(value) => setAuthor(value)}
+              onChange={(value) => setAuthor(value.value)}
             />
-            <Select placeHolder="Tags" label="Tags" isMulti options={tagOptions} onChange={(value) => setTag(value)} />
             <Select
               placeHolder="Categories"
               label="Categories"
               options={catOptions}
-              onChange={(value) => setCategory(value)}
+              onChange={(value) => setCategory(value.value)}
             />
+            <Select placeHolder="Tags" label="Tags" isMulti options={tagOptions} onChange={(value) => setTag(value)} />
           </div>
           <div className="mt-[2.4rem]">
             <label className="text-black/70">Post</label>

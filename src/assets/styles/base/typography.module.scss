@@ -30,6 +30,10 @@ input {
   @apply text-[1.6rem] font-medium placeholder:font-normal;
 }
 
+select {
+  @apply text-[1.6rem] font-medium placeholder:font-normal;
+}
+
 textarea {
   @apply text-[1.6rem] font-medium placeholder:font-normal;
 }

@@ -158,3 +158,45 @@ const Select = ({ placeHolder, options, isMulti, isSearchable, onChange, label }
 };
 
 export default Select;
+
+// export default function Select({
+//   required,
+//   type,
+//   placeholder,
+//   id,
+//   value,
+//   onChange,
+//   name,
+//   children,
+//   label,
+//   className,
+//   classLabel,
+//   classSelect,
+// }) {
+//   return (
+//     <>
+//       <div className={`select-group ${className}`}>
+//         <label htmlFor="" className={classLabel}>
+//           {label}
+//         </label>
+//         <div className="flex items-center h-[4.8rem] mt-[.8rem] relative">
+//           <select
+//             name={name}
+//             type={type}
+//             id={id}
+//             placeholder={placeholder}
+//             value={value}
+//             onChange={onChange}
+//             required={required}
+//             className={`border-[.16rem] border-black/10 ${classSelect}`}
+//           >
+//             {children}
+//           </select>
+//           <svg>
+//             <use href={`/images/sprite.svg#icon-chevron`} />
+//           </svg>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
