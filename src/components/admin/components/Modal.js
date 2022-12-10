@@ -24,7 +24,7 @@ export default function Modal({ open, close, modal, slug, token, text }) {
     const data = await res.json();
 
     if (res.ok) {
-      toast.success('Deleted: Category deleted successfully');
+      toast.success(`Deleted: ${text} deleted successfully`);
       setTimeout(() => {
         close(false);
         navigate.push(`/admin/${modal}`);
@@ -47,7 +47,7 @@ export default function Modal({ open, close, modal, slug, token, text }) {
                 <use href={`/images/sprite.svg#icon-trash`} />
               </svg>
             </div>
-            <p>Are you sure you want to delete this {text}</p>
+            <p>Are you sure you want to delete this {text}?</p>
           </section>
           <footer>
             <Button
